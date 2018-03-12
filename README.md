@@ -1,5 +1,5 @@
-# integrated
-Integrated models of population dynamics in R
+# betadiversity 
+Code to regress estimates of beta diversity against three sets of predictor variables: spatial scale, functional groupings of species, and environmental covariates. Regressions are based on beta regression models, implemented in Stan through the rstan R package.
 
 Copyright &copy; 2018, Jian Yen
 
@@ -21,11 +21,15 @@ limitations under the License.
 *****
 
 ## Overview
-Integrated model to estimate demographic vital rates from data on individual growth trajectories and population size distributions.
+Beta regression models to relate estimates of beta diversity to three sets of predictor variables.
 
 Maintainer: Jian Yen (jdl.yen@gmail.com)
 
-Updated: 19 January 2018
+Updated: 13 March 2018
 
-## About
-This project uses integrated Bayesian models to estimate demographic vital rates from multiple data sources.
+## Usage
+Several scripts are provided. The main model runs are provided in beta-div-[predictor].R files, where [predictor] is the predictor variable of interest. These scripts require a pre-loaded data set (to be made available on publication). Several helper scripts are provided, including helpers.R, install_packages.R, and prepare-lm-data.R. The load-all-data.R script loads all data from scratch, calling on many individual data files and two helper scripts (load-data-helpers.R and load-pa-data.R). Raw data files will be made available on publication, alongside a pre-loaded data set (loading data from raw files takes approximately half an hour on a MacBook Air).
+
+The [filename].stan files are Stan models with spatial scale or functional groupings (guilds) as predictor variables. Models with environmental predictor variables are created dynamically using the stan_gen_beta_mod() function in helpers.R.
+
+
