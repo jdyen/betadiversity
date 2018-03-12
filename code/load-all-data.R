@@ -17,6 +17,7 @@
 #  data/bfs-guilds.csv
 #  data/cent-pt-coords.csv
 #  data/west-pt-coords.csv
+#  data/cent-bird-can-coords.csv
 #  data/west-bird-can-coords.csv
 #  data/cent-bfs-tran-coords.csv
 #  data/west-bfs-tran-coords.csv
