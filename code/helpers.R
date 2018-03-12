@@ -382,3 +382,173 @@ stan_gen_beta_mod <- function(spatial = FALSE, cross_val = FALSE) {
   
   mod.file
 }
+
+# full mod function for guild models
+stan_guild_mod <- function(y, guild, region, year = NULL,
+                           n.its = 5000, n.ch = 4,
+                           ...)
+{
+  # remove missing observations
+  if (any(is.na(y))) {
+    rows.to.rm <- which(is.na(y))
+    y <- y[-rows.to.rm]
+    guild <- as.integer(as.factor(guild[-rows.to.rm]))
+    region <- as.integer(as.factor(region[-rows.to.rm]))
+    if (!is.null(year)) {
+      year <- as.integer(as.factor(year[-rows.to.rm]))
+    }
+  } else {
+    guild <- as.integer(as.factor(guild))
+    region <- as.integer(as.factor(region))
+    if (!is.null(year)) {
+      year <- as.integer(as.factor(year))
+    }
+  }
+  y <- ifelse(y == 1, 0.99, y)
+  y <- ifelse(y == 0, 0.01, y)
+  if (any(is.na(guild))) {
+    guild[which(is.na(guild))] <- 1
+  }
+  if (any(is.na(region))) {
+    region[which(is.na(region))] <- 1
+  }
+  
+  # set up predictor matrix
+  guild_pred <- unique(guild)
+  npred <- length(guild_pred)
+  
+  # collate data set for stan model
+  data.set <- list(y = y,
+                   guild = as.integer(guild),
+                   region = as.integer(region),
+                   n = length(y),
+                   nreg = length(unique(region)),
+                   ng = length(unique(guild)),
+                   npred = npred,
+                   guild_pred = guild_pred)
+  
+  if (!is.null(year)) {
+    if (any(is.na(year))) {
+      year[which(is.na(year))] <- max(year, na.rm = TRUE) + 1
+    }
+    data.set$year <- year
+    data.set$ny <- length(unique(year))
+    mod.file <- './r-code/stan-guild-mod-spat.stan'
+  } else {
+    mod.file = './r-code/stan-guild-mod.stan'  
+  }
+  
+  print(tapply(data.set$y, data.set$guild, mean))
+  print(data.set$guild_pred)
+  
+  mod.def <- stan_model(file = mod.file)
+  
+  mod <- sampling(object = mod.def,
+                  data = data.set,
+                  iter = n.its,
+                  chains = n.ch,
+                  init = '0',
+                  cores = n.ch,
+                  ...)
+  
+  fitted <- summary(mod, pars = 'y_fitted')$summary[, 'mean']
+  r2 <- cor(fitted, data.set$y) ** 2
+  y_pred <- summary(mod, pars = 'y_pred',
+                    p = c(0.025, 0.1, 0.25, 0.5, 0.75, 0.9, 0.975))$summary[, c('mean', 'sd', '2.5%', '10%', '25%', '50%', '75%', '90%', '97.5%')]
+  loglik <- extract_log_lik(mod)
+  loo_est <- loo(loglik)
+  waic_est <- waic(loglik)
+  rhats <- summary(mod)$summary[, 'Rhat']
+  neff <- summary(mod)$summary[, 'n_eff']
+  return(list(r2 = r2,
+              fitted = fitted, obs = data.set$y,
+              y_pred = y_pred,
+              loo = loo_est, waic = waic_est,
+              rhat = rhats, neff = neff,
+              mod = mod,
+              data_set = data.set))
+}
+
+# full mod function for scale models
+stan_scale_mod <- function(y, region, scale, year = NULL,
+                           n.its = 5000, n.ch = 4,
+                           ...)
+{
+  # remove missing observations
+  if (any(is.na(y))) {
+    rows.to.rm <- which(is.na(y))
+    y <- y[-rows.to.rm]
+    region <- as.integer(as.factor(region[-rows.to.rm]))
+    scale <- as.integer(as.factor(scale[-rows.to.rm]))
+    if (!is.null(year)) {
+      year <- as.integer(as.factor(year[-rows.to.rm]))
+    }
+  } else {
+    region <- as.integer(as.factor(region))
+    scale <- as.integer(as.factor(scale))
+    if (!is.null(year)) {
+      year <- as.integer(as.factor(year))
+    }
+  }
+  y <- ifelse(y == 1, 0.99, y)
+  y <- ifelse(y == 0, 0.01, y)
+  if (any(is.na(region))) {
+    region[which(is.na(region))] <- 1
+  }
+  if (any(is.na(scale))) {
+    scale[which(is.na(scale))] <- 1
+  }
+  
+  # set up predictor matrix
+  region_pred <- rep(c(1, 2), each = 2)
+  scale_pred <- rep(c(1, 2), times = 2)
+  npred = length(region_pred)
+  
+  # collate data set for stan model
+  data.set <- list(y = y,
+                   region = as.integer(region),
+                   scale = as.integer(scale),
+                   n = length(y),
+                   ns = length(unique(scale)),
+                   nr = length(unique(region)),
+                   npred = npred,
+                   scale_pred = scale_pred,
+                   region_pred = region_pred)
+  
+  if (!is.null(year)) {
+    if (any(is.na(year))) {
+      year[which(is.na(year))] <- max(year, na.rm = TRUE) + 1
+    }
+    data.set$year <- year
+    data.set$ny <- length(unique(year))
+    mod.file <- './r-code/stan-scale-mod-spat.stan'
+  } else {
+    mod.file = './r-code/stan-scale-mod.stan'  
+  }
+  
+  mod.def <- stan_model(file = mod.file)
+  
+  mod <- sampling(object = mod.def,
+                  data = data.set,
+                  iter = n.its,
+                  chains = n.ch,
+                  init = '0',
+                  cores = n.ch,
+                  ...) 
+  
+  fitted <- summary(mod, pars = 'y_fitted')$summary[, 'mean']
+  r2 <- cor(fitted, data.set$y) ** 2
+  y_pred <- summary(mod, pars = 'y_pred')$summary[, c('mean', 'sd', '2.5%', '50%', '97.5%')]
+  loglik <- extract_log_lik(mod)
+  loo_est <- loo(loglik)
+  waic_est <- waic(loglik)
+  rhats <- summary(mod)$summary[, 'Rhat']
+  neff <- summary(mod)$summary[, 'n_eff']
+  return(list(r2 = r2,
+              fitted = fitted, obs = data.set$y,
+              y_pred = y_pred,
+              loo = loo_est, waic = waic_est,
+              rhat = rhats, neff = neff,
+              mod = mod,
+              data_set = data.set))
+}
