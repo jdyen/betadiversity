@@ -25,10 +25,21 @@ quad_mod <- quad_mod_cv <- TRUE       # include quadratic terms?
 int_mod <- int_mod_cv <- FALSE        # include pairwise interactions?
 region_mod <- region_mod_cv <- TRUE   # allow differences in effects between regions?
 
+# create a unique filename for each model type
 file_suffix <- paste0(ifelse(quad_mod, "quad_", "lin_"),
                       ifelse (region_mod, "reg_", "one_"),
                       ifelse(int_mod, "int", "idp"))
 
+## fit all models
+# Key:
+#   pt1/tran1: temporal turnover at points or transects
+#   pt2/tran2: temporal nestedness at points or transects
+#   can1: temporal turnover at canyons
+#   can2: temporal nestedness at canyons
+#   spat1: spatial turnover among points
+#   spat2: spatial nestedness among points
+
+# fit models for birds
 mod_bird <- stan_beta_mod(y = bird.temp.pt$beta[, 1],
                           x = bird.temp.pt$pred,
                           region = bird.temp.pt$region,

@@ -28,7 +28,7 @@ mod_bird_temp1 <- stan_scale_mod(y = bird.temp.beta[, 1],
                                  n.its = n.its,
                                  n.ch = n.chains,
                                  control = list(adapt_delta = 0.95))
-save(mod_bird_temp1, file = './outputs/mod-bird-temp-turnover.R')
+save(mod_bird_temp1, file = "./outputs/mod-bird-temp-turnover.R")
 
 mod_bird_temp2 <- stan_scale_mod(y = bird.temp.beta[, 2],
                                  region = bird.temp.region,
@@ -36,7 +36,7 @@ mod_bird_temp2 <- stan_scale_mod(y = bird.temp.beta[, 2],
                                  n.its = n.its,
                                  n.ch = n.chains,
                                  control = list(adapt_delta = 0.95))
-save(mod_bird_temp2, file = './outputs/mod-bird-temp-nestedness.R')
+save(mod_bird_temp2, file = "./outputs/mod-bird-temp-nestedness.R")
 
 bird.spat.beta <- rbind(bird.spat.pt$beta, bird.spat.can$beta)
 bird.spat.region <- c(bird.spat.pt$region, bird.spat.can$region)
@@ -50,7 +50,7 @@ mod_bird_spat1 <- stan_scale_mod(y = bird.spat.beta[, 1],
                                  n.its = n.its,
                                  n.ch = n.chains,
                                  control = list(adapt_delta = 0.95))
-save(mod_bird_spat1, file = './outputs/mod-bird-spat-turnover.R')
+save(mod_bird_spat1, file = "./outputs/mod-bird-spat-turnover.R")
 
 mod_bird_spat2 <- stan_scale_mod(y = bird.spat.beta[, 2],
                                  region = bird.spat.region,
@@ -59,7 +59,7 @@ mod_bird_spat2 <- stan_scale_mod(y = bird.spat.beta[, 2],
                                  n.its = n.its,
                                  n.ch = n.chains,
                                  control = list(adapt_delta = 0.95))
-save(mod_bird_spat2, file = './outputs/mod-bird-spat-nestedness.R')
+save(mod_bird_spat2, file = "./outputs/mod-bird-spat-nestedness.R")
 
 bfs.temp.beta <- rbind(bfs.temp.tran$beta, bfs.temp.can$beta)
 bfs.temp.region <- c(bfs.temp.tran$region, bfs.temp.can$region)
@@ -71,7 +71,7 @@ mod_bfs_temp1 <- stan_scale_mod(y = bfs.temp.beta[, 1],
                                  n.its = n.its,
                                  n.ch = n.chains,
                                  control = list(adapt_delta = 0.95))
-save(mod_bfs_temp1, file = './outputs/mod-bfs-temp-turnover.R')
+save(mod_bfs_temp1, file = "./outputs/mod-bfs-temp-turnover.R")
 
 mod_bfs_temp2 <- stan_scale_mod(y = bfs.temp.beta[, 2],
                                 region = bfs.temp.region,
@@ -79,7 +79,7 @@ mod_bfs_temp2 <- stan_scale_mod(y = bfs.temp.beta[, 2],
                                 n.its = n.its,
                                 n.ch = n.chains,
                                 control = list(adapt_delta = 0.95))
-save(mod_bfs_temp2, file = './outputs/mod-bfs-temp-nestedness.R')
+save(mod_bfs_temp2, file = "./outputs/mod-bfs-temp-nestedness.R")
 
 bfs.spat.beta <- rbind(bfs.spat.tran$beta, bfs.spat.can$beta)
 bfs.spat.region <- c(bfs.spat.tran$region, bfs.spat.can$region)
@@ -93,7 +93,7 @@ mod_bfs_spat1 <- stan_scale_mod(y = bfs.spat.beta[, 1],
                                 n.its = n.its,
                                 n.ch = n.chains,
                                 control = list(adapt_delta = 0.95))
-save(mod_bfs_spat1, file = './outputs/mod-bfs-spat-turnover.R')
+save(mod_bfs_spat1, file = "./outputs/mod-bfs-spat-turnover.R")
 
 mod_bfs_spat2 <- stan_scale_mod(y = bfs.spat.beta[, 2],
                                 region = bfs.spat.region,
@@ -102,4 +102,4 @@ mod_bfs_spat2 <- stan_scale_mod(y = bfs.spat.beta[, 2],
                                 n.its = n.its,
                                 n.ch = n.chains,
                                 control = list(adapt_delta = 0.95))
-save(mod_bfs_spat2, file = './outputs/mod-bfs-spat-nestedness.R')
+save(mod_bfs_spat2, file = "./outputs/mod-bfs-spat-nestedness.R")
