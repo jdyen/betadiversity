@@ -1,3 +1,6 @@
+# R code to re-format data on beta diversity and predictors to
+#   be used in beta regression models.
+
 # beta_mat, preds, coords
 # bird pt (turnover + nestedness)
 beta.set <- beta.all.pt[[1]]
