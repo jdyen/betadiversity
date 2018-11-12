@@ -1,6 +1,8 @@
 # betadiversity 
 Code to regress estimates of beta diversity against three sets of predictor variables: spatial scale, functional groupings of species, and environmental covariates. Regressions are based on beta regression models, implemented in Stan through the rstan R package.
 
+The analyses outlined here are presented in detail in Yen, Fleishman, Fogarty, and Dobkin (in press) Relating beta diversity of birds and butterflies in the Great Basin to spatial resolution, environmental variables and trait-based groups. Global Ecology and Biogeography (accepted 1 October 2018).
+
 Copyright &copy; 2018, Jian Yen
 
 *****
@@ -25,10 +27,10 @@ Beta regression models to relate estimates of beta diversity to three sets of pr
 
 Maintainer: Jian Yen (jdl.yen@gmail.com)
 
-Updated: 13 March 2018
+Updated: 12 November 2018
 
 ## Usage
-Several scripts are provided. The main model runs are provided in beta-div-[predictor].R files, where [predictor] is the predictor variable of interest. These scripts require a pre-loaded data set (to be made available on publication). Several helper scripts are provided, including helpers.R, install_packages.R, and prepare-lm-data.R. The load-all-data.R script loads all data from scratch, calling on many individual data files and two helper scripts (load-data-helpers.R and load-pa-data.R). Raw data files will be made available on publication, alongside a pre-loaded data set (loading data from raw files takes approximately half an hour on a MacBook Air).
+Several scripts are provided. The main model runs are provided in beta-div-[predictor].R files, where [predictor] is the predictor variable of interest. These scripts require a pre-loaded data set (available in the data directory). Several helper scripts are provided, including helpers.R, install_packages.R, and prepare-lm-data.R. The load-all-data.R script loads all data from scratch, calling on many individual data files and two helper scripts (load-data-helpers.R and load-pa-data.R). Raw data files are available in the data directory. A pre-loaded data set is provided because loading data from raw files takes approximately half an hour on a MacBook Air.
 
 The [filename].stan files are Stan models with spatial scale or functional groupings (guilds) as predictor variables. Models with environmental predictor variables are created dynamically using the stan_gen_beta_mod() function in helpers.R.
 
