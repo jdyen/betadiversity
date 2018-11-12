@@ -35,5 +35,5 @@ Several scripts are provided. The main model runs are provided in beta-div-[pred
 The [filename].stan files are Stan models with spatial scale or functional groupings (guilds) as predictor variables. Models with environmental predictor variables are created dynamically using the stan_gen_beta_mod() function in helpers.R.
 
 Data files are included here for reproducibility purposes. Users interested in using these data for alternative analyses should refer to the original data archives:
-https://www.fs.usda.gov/rds/archive/Product/RDS-2011-0002.3, https://www.fs.usda.gov/rds/archive/Product/RDS-2011-0003.3, https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0007-2, https://www.fs.usda.gov/rds/archive/Product/RDS-2015-0031, https://www.fs.usda.gov/rds/archive/Product/RDS-2015-0030, and https://www.fs.usda.gov/rds/archive/Product/RDS-2015-0032.
+https://www.fs.usda.gov/rds/archive/Product/RDS-2011-0002.3/, https://www.fs.usda.gov/rds/archive/Product/RDS-2011-0003.3/, https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0007-2, https://www.fs.usda.gov/rds/archive/Product/RDS-2015-0031, https://www.fs.usda.gov/rds/archive/Product/RDS-2015-0030, and https://www.fs.usda.gov/rds/archive/Product/RDS-2015-0032.
 
